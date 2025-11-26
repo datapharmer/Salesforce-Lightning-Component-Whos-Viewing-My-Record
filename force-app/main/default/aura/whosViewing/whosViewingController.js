@@ -118,7 +118,6 @@
             // Fallback just in case the label isn't set in App Builder
             userLabel = "Who's Viewing"; 
         }
-        // -----------------------------
         
         var viewing = component.get("v.whosViewing").length;
 
@@ -127,7 +126,6 @@
             var readNotification = component.get('v.readNotification');
             utilityAPI.setUtilityHighlighted({ highlighted : false });
             utilityAPI.setUtilityLabel(
-                // 2. Use the dynamic label
                 { label : userLabel }); 
             component.set('v.readNotification', true);
 
@@ -136,7 +134,6 @@
             var readNotification = component.get('v.readNotification');
             utilityAPI.setUtilityHighlighted({ highlighted : true });
             utilityAPI.setUtilityLabel(
-                // 3. Use the dynamic label and append the count
                 { label : userLabel + ' (' + viewing + ')' });
             component.set('v.readNotification', false);
 

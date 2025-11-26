@@ -40,7 +40,7 @@
             helper.displayToast(
               component,
               "error",
-              "Failed to subsribed to Event Channel"
+              "Failed to subsribe to Event Channel"
             );
           }
         })

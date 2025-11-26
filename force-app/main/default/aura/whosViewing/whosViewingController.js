@@ -113,7 +113,7 @@
     
     // Handler for updating the utility bar label and highlight
     utlityNotifications: function (component, event) {
-        var userLabel = component.get('v.utilityLabel');
+        var userLabel = component.get('v.label');
         if (!userLabel) {
             // Fallback just in case the label isn't set in App Builder
             userLabel = "Who's Viewing"; 

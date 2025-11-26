@@ -1,0 +1,3 @@
+<design:component>
+    <design:attribute name="utilityLabel" label="Utility Bar Label" default="Who's Viewing"/>
+</design:component>

@@ -1,7 +1,7 @@
 <aura:component controller="whosViewingController" implements="flexipage:availableForAllPageTypes,force:hasRecordId" access="global" >
 	  
     <aura:attribute name="whosViewing" type="Object[]"/>
-	<aura:attribute name="utilityLabel" type="String" default="Who's Viewing" description="The custom label for the utility bar item."/>
+	<aura:attribute name="label" type="String" default="Who's Viewing" description="The custom label for the utility bar item."/>
     <aura:attribute name="recordId" type="Id"/>
     <aura:attribute name="priorRecordId" type="string"/>
     <aura:attribute name="isMuted" type="Boolean" default="false"/>

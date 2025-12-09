@@ -21,7 +21,6 @@
       cometd.handshake(
         $A.getCallback(function (status) {
           if (status.successful) {
-            // helper.displayToast(component,"success","Subscribed to Event Channel");
             var eventName = component.get("v.channel");
             var subscription = cometd.subscribe(
               eventName,

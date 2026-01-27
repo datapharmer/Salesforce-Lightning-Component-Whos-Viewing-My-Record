@@ -34,8 +34,7 @@
             );
             component.set("v.subscription", subscription);
           } else {
-            // TODO: Throw an event / set error property here?
-            console.error("streaming component: " + status);
+            console.error("Streaming component handshake failed: ", JSON.stringify(status, null, 2));
             helper.displayToast(
               component,
               "error",

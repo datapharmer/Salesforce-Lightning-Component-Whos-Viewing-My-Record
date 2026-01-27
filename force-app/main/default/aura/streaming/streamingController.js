@@ -10,7 +10,7 @@
           window.location.protocol +
           "//" +
           window.location.hostname +
-          "/cometd/41.0/",
+          "/cometd/59.0/",
         requestHeaders: { Authorization: "OAuth " + sessionId },
         appendMessageTypeToURL: false,
       });

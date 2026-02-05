@@ -11,8 +11,7 @@
         component.set('v.whosViewing',[]);
         var prId = component.get('v.priorRecordId');
         
-        // Only push events if we are sure the subscription is active, 
-        // effectively implied if the component is already loaded.
+        // Only push events if we are sure the subscription is active
         helper.pushEvent(component, prId, "Left", "" );
         
         var rId = component.get('v.recordId');
@@ -46,7 +45,7 @@
         var viewing = component.get("v.whosViewing");
 
         if (payloadStatus=="New" && recId == payloadRecId && payloadUserId != uId){
-            //make sure we dont add the same user to the list if they refreshed the page.
+            // Check for duplicates before adding
             var isViewing = helper.isUserViewing(component,payloadUserId);
             if (isViewing==false){
                 viewing.push(payload);
@@ -54,9 +53,15 @@
             };
             //respond to the new user
             helper.pushEvent(component, recId, "Response", payloadUserId );
+        
         } else if (payloadStatus=="Response" && recId == payloadRecId && payloadRT == uId){
-            viewing.push(payload);
-            component.set("v.whosViewing",viewing);
+            // FIX: Add duplicate check here for Responses as well
+            var isViewing = helper.isUserViewing(component, payloadUserId);
+            if (isViewing == false) {
+                viewing.push(payload);
+                component.set("v.whosViewing",viewing);  
+            }
+            
         } else if (payloadStatus=="Left" && recId == payloadRecId && payloadUserId != uId){
             var isViewing = helper.isUserViewing(component,payloadUserId);
             if (isViewing==true){
@@ -77,16 +82,12 @@
         console.log('Lightning Data, record change detected.');
         var changeType = event.getParams().changeType;
         if (changeType === "ERROR") {
-            /* handle error; do this first! */
             helper.displayToast(component, 'error', 'Notifications: Error Connecting to Record.');
         } else if (changeType === "LOADED") {
-            /* handle record load */
             helper.displayToast(component, 'warning', 'Notifications: Record Loaded by another user.');
         } else if (changeType === "REMOVED") {
-            /* handle record removal */
             helper.displayToast(component, 'error', 'Notifications: This record have been deleted by another user.');
         } else if (changeType === "CHANGED") {
-            /* handle record change */
             helper.displayToast(component, 'error', 'Notifications: This record have been edited by another user.');
         }
     },
@@ -102,23 +103,18 @@
     utlityNotifications: function (component, event) {
         var userLabel = component.get('v.label');
         if (!userLabel) {
-            // Fallback just in case the label isn't set in App Builder
             userLabel = "Who's Viewing";
         }
         var viewing = component.get("v.whosViewing").length;
         if(viewing==0){
             var utilityAPI = component.find('utilitybar');
-            var readNotification = component.get('v.readNotification');
             utilityAPI.setUtilityHighlighted({ highlighted : false });
-            utilityAPI.setUtilityLabel(
-            { label : userLabel });
+            utilityAPI.setUtilityLabel({ label : userLabel });
             component.set('v.readNotification', true);
         } else {
             var utilityAPI = component.find('utilitybar');
-            var readNotification = component.get('v.readNotification');
             utilityAPI.setUtilityHighlighted({ highlighted : true });
-            utilityAPI.setUtilityLabel(
-            { label : userLabel + ' (' + viewing + ')' });
+            utilityAPI.setUtilityLabel({ label : userLabel + ' (' + viewing + ')' });
             component.set('v.readNotification', false);
         }
     }

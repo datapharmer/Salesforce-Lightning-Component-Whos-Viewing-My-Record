@@ -63,21 +63,23 @@
     },
 
     handleDestroy: function (component, event, helper) {
-        // Retrieve the references immediately
-        var cometd = component.get("v.cometd");
-        var subscription = component.get("v.subscription");
+        if (component.isValid()) {
+            // Retrieve the references immediately
+            var cometd = component.get("v.cometd");
+            var subscription = component.get("v.subscription");
 
-        // Disconnect immediately without waiting for callbacks to interact with the component
-        if (cometd) {
-            try {
-                if (subscription) {
-                    // Unsubscribe without a callback or with a safe, detached callback
-                    cometd.unsubscribe(subscription);
+            // Ensure cometd exists and has the necessary methods before calling them
+            if (cometd && typeof cometd.unsubscribe === 'function') {
+                try {
+                    if (subscription) {
+                        cometd.unsubscribe(subscription);
+                    }
+                    if (typeof cometd.disconnect === 'function') {
+                        cometd.disconnect();
+                    }
+                } catch (e) {
+                    console.error('Error during cleanup: ' + e);
                 }
-                // Disconnect immediately
-                cometd.disconnect();
-            } catch (e) {
-                console.error('Error during cleanup: ' + e);
             }
         }
     }
